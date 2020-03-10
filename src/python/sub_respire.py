@@ -2,10 +2,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import imp
 import inspect
 import os
 import sys
+
+if sys.version_info[0] == 3:
+  import importlib.util
+else:
+  import imp
 
 import json_utils
 from registry import Registry
@@ -45,6 +49,13 @@ def _GenerateSystemCommandForFlattenedOutput(
       command=command)
 
 
+def _IsFunctionParameter(param_name, function):
+  if sys.version_info[0] == 3:
+    return param_name in inspect.signature(function).parameters
+  else:
+    return param_name in inspect.getargspec(function)[0]
+
+
 def SubRespire(build_filepath, params_file, out_dir, function_name,
                timestamp_file=None):
   with open(params_file, 'r') as f:
@@ -72,7 +83,16 @@ def SubRespire(build_filepath, params_file, out_dir, function_name,
   # library.
   sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'buildlib'))
 
-  build_module = imp.load_source('respire_build', build_filepath)
+  build_module = None
+  if sys.version_info[0] == 3:
+    build_spec = importlib.util.spec_from_file_location(
+        'respire_build', build_filepath)
+    build_module = importlib.util.module_from_spec(build_spec)
+    sys.modules[build_spec.name] = build_module
+    build_spec.loader.exec_module(build_module)
+  else:
+    build_module = imp.load_source('respire_build', build_filepath)
+
   registry = Registry(out_dir, build_filepath, build_module, respire_filepaths)
 
   params = json_utils.DecodeFromJSONWithFlattening(params_content)
@@ -81,7 +101,7 @@ def SubRespire(build_filepath, params_file, out_dir, function_name,
         'Requested respire function, "%s", not found in build file: %s.'
         % (function_name, build_filepath))
   function = getattr(build_module, function_name)
-  if 'registry' not in inspect.getargspec(function)[0]:
+  if not _IsFunctionParameter('registry', function):
     raise Exception(
         'You may only pass functions with a "registry" parameter to '
         'SubRespire().')
