@@ -4,12 +4,17 @@ import sys
 import respire.buildlib.cc as cc
 
 def DiscoverHostMSVC():
-  # First try to discover and use MSVC 15.
+  # Try to discover and use MSVC 15.
+  msvc_16_toolchain = DiscoverMSVC16()
+  if msvc_16_toolchain:
+    return msvc_16_toolchain
+
+  # Try to discover and use MSVC 15.
   msvc_15_toolchain = DiscoverMSVC15()
   if msvc_15_toolchain:
     return msvc_15_toolchain
 
-  # If that doesn't work, fall back to MSVC 14.
+  # Try to discover and use MSVC 14.
   msvc_14_toolchain = DiscoverMSVC14()
   if msvc_14_toolchain:
     return msvc_14_toolchain
@@ -17,23 +22,62 @@ def DiscoverHostMSVC():
   # We failed to find a toolchain, return failure.
   return None
 
+WINDOWS_KIT_PATH = 'C:\\Program Files (x86)\\Windows Kits\\10'
 
-def DiscoverMSVC15():
-  vc_dir = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Tools\\MSVC\\14.12.25827'
-  windows_kit_path = 'C:\\Program Files (x86)\\Windows Kits\\10'
-  windows_kit_version = '10.0.16299.0'
+def GetWindowsKit10Version():
+  include_directory = os.path.join(WINDOWS_KIT_PATH, 'Include')
+  versions = [x for x in os.listdir(include_directory) if (
+                  os.path.isdir(os.path.join(include_directory, x)) and
+                  x.startswith('10.'))]
+
+  if not versions:
+    raise Exception('Could not find Windows Kit version.')
+
+  return max(versions)
+
+
+def DiscoverMSVC16():
+  vc_dir = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.24.28314'
+  windows_kit_version = GetWindowsKit10Version()
 
   system_include_directories = [
     os.path.join(vc_dir, 'include'),
-    os.path.join(windows_kit_path, 'Include', windows_kit_version, 'um'),
-    os.path.join(windows_kit_path, 'Include', windows_kit_version, 'shared'),
-    os.path.join(windows_kit_path, 'Include', windows_kit_version, 'ucrt'),
+    os.path.join(WINDOWS_KIT_PATH, 'Include', windows_kit_version, 'um'),
+    os.path.join(WINDOWS_KIT_PATH, 'Include', windows_kit_version, 'shared'),
+    os.path.join(WINDOWS_KIT_PATH, 'Include', windows_kit_version, 'ucrt'),
   ]
 
   system_library_directories = [
     os.path.join(vc_dir, 'lib', 'x86'),
-    os.path.join(windows_kit_path, 'Lib', windows_kit_version, 'um', 'x86'),
-    os.path.join(windows_kit_path, 'Lib', windows_kit_version, 'ucrt', 'x86'),
+    os.path.join(WINDOWS_KIT_PATH, 'Lib', windows_kit_version, 'um', 'x86'),
+    os.path.join(WINDOWS_KIT_PATH, 'Lib', windows_kit_version, 'ucrt', 'x86'),
+  ]
+
+  try:
+    return MSVCToolchain(
+        os.path.join(vc_dir, 'bin', 'Hostx86', 'x86', 'cl.exe'),
+        system_include_directories=system_include_directories,
+        system_library_directories=system_library_directories)
+  except:
+    return None
+
+
+def DiscoverMSVC15():
+  vc_dir = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC\\Tools\\MSVC\\14.12.25827'
+  windows_kit_path = 'C:\\Program Files (x86)\\Windows Kits\\10'
+  windows_kit_version = GetWindowsKit10Version()
+
+  system_include_directories = [
+    os.path.join(vc_dir, 'include'),
+    os.path.join(WINDOWS_KIT_PATH, 'Include', windows_kit_version, 'um'),
+    os.path.join(WINDOWS_KIT_PATH, 'Include', windows_kit_version, 'shared'),
+    os.path.join(WINDOWS_KIT_PATH, 'Include', windows_kit_version, 'ucrt'),
+  ]
+
+  system_library_directories = [
+    os.path.join(vc_dir, 'lib', 'x86'),
+    os.path.join(WINDOWS_KIT_PATH, 'Lib', windows_kit_version, 'um', 'x86'),
+    os.path.join(WINDOWS_KIT_PATH, 'Lib', windows_kit_version, 'ucrt', 'x86'),
   ]
 
   try:
