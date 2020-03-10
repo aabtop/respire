@@ -1,0 +1,102 @@
+body {
+  background-color: rgb(25, 25, 25);
+  color: white;
+}
+
+#legend {
+  border-color: gainsboro;
+  background-color: rgb(50, 50, 50);
+}
+
+.node {
+  stroke: gainsboro;
+}
+
+.node.inactive {
+  fill: grey;
+}
+
+.node.action-pending {
+  fill: cadetblue;
+}
+
+.node.scanning-dependencies {
+  fill: cornflowerblue;
+}
+
+.node.executing {
+  fill: gold;
+}
+
+.node.completed-uptodate {
+  fill: olivedrab;
+}
+
+.node.completed-success {
+  fill: lightgreen;
+}
+
+.node.completed-error {
+  fill: indianred;
+}
+
+.edge {
+  stroke: gainsboro;     
+}
+
+.arrow-head {
+  stroke: gainsboro;
+  fill: gainsboro;
+}
+
+.node-label {
+  border-color: gray;
+  background-color: rgb(50, 50, 50);
+  color: white;
+}
+
+.playback-container {
+  background-color: rgb(50, 50, 50);
+  border-color: gainsboro;
+}
+
+.playback-button {
+  background-color: silver;
+  color: black;
+  border-color: black;
+}
+
+.playback-button.selected {
+  background-color: white;
+  color: black;
+  border-color: black;
+}
+
+.playback-button:hover {
+  background-color: gainsboro;
+  cursor: pointer;
+}
+
+.playback-timeline {
+  background-color: gainsboro;
+}
+
+.playback-cursor {
+  border-color: black;
+  background-color: gainsboro;
+}
+
+.playback-text {
+  background-color: gainsboro;
+  color: black;
+  border-color: black;
+}
+
+@keyframes pulsing-yellow {
+  from { background-color: yellow; }
+  to { background-color: gold; }
+}
+
+.playback-end-time.active {
+  animation: pulsing-yellow 200ms infinite alternate-reverse;
+}

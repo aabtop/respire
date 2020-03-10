@@ -1,0 +1,52 @@
+#legend {
+  border-color: black;
+  color: black;
+  background-color: lightyellow;
+}
+
+.node {
+  stroke: black;
+}
+
+.node.inactive {
+  fill: grey;
+}
+
+.node.action-pending {
+  fill: cadetblue;
+}
+
+.node.scanning-dependencies {
+  fill: cornflowerblue;
+}
+
+.node.executing {
+  fill: yellow;
+}
+
+.node.completed-uptodate {
+  fill: green;
+}
+
+.node.completed-success {
+  fill: lime;
+}
+
+.node.completed-error {
+  fill: red;
+}
+
+.edge {
+  stroke: black;     
+}
+
+.arrow-head {
+  stroke: black;
+  fill: black;
+}
+
+.node-label {
+  border-color: gray;
+  background-color: lemonchiffon;
+  color: black;
+}

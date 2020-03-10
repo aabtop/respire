@@ -1,0 +1,159 @@
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial;
+    }
+
+    #d3-container {
+      width:100%;
+      height:100%;
+    }
+
+    #legend {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+
+      border-radius: 10px;
+      border: solid 2px;
+      line-height: 30px;
+    }
+
+    .legend-header {
+      font-weight: bold;
+      font-size: large;
+    }
+
+    .legend-label {
+      font-size: small;
+    }
+
+    .node {
+      stroke-width: 2px;
+      transition: fill 400ms;
+    }
+
+    .node.mouse-over {
+      stroke-width: 4px;
+    }
+
+    .node-label {
+      position: absolute;
+      left: 0px;
+      border-radius: 4px;
+      border: solid 1px;
+      padding: 3px;
+      font-size: small;
+    }
+
+    .playback-container {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 40%;
+      height: 95px;
+      border-radius: 10px;
+      border: solid 3px;
+      text-align: center;
+    }
+
+    .playback-container-inner {
+      position: absolute;
+      margin-top: 5px;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .playback-button-container {
+      margin-bottom: 7px;
+    }
+
+    .playback-button {
+      display: inline-block;
+      border-radius: 10px;
+      border: solid 2px;
+      font-size: large;
+      margin: 4px;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      line-height: 30px;
+      user-select: none;
+    }
+
+    .playback-progress-bar-container {
+      height: 20px;
+    }
+
+    .playback-timeline {
+      position: relative;
+      top: 50%;
+      transform: translateY(50%);
+      margin: 15px auto 10px;
+      width: 70%;
+      height: 2px;
+    }
+
+    .playback-cursor {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 0%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: solid 2px;
+    }
+
+    .playback-cursor-time {
+      position: absolute;
+      padding: 1px 2px;
+      transform: translate(-50%, -100%) translateY(-14px);
+      top: 50%;
+      left: 50%;
+      border-radius: 4px;
+      border: solid 1px;
+      font-size: small;
+    }
+
+    .playback-end-time {
+      position: absolute;
+      padding: 2px;
+      top: 50%;
+      left: 100% ;
+      transform: translate(12px, -50%);
+      border: solid 1px;
+      border-radius: 4px;
+      font-size: small;
+    }
+
+    .playback-event-progress {
+      position: absolute;
+      left: 15px;
+      bottom: 15px;
+      border: solid 1px;
+      border-radius: 4px;
+      font-size: small;
+      padding: 4px;
+    }
+  </style>
+
+  <link rel="stylesheet" type="text/css" href="color_schemes/dark.css"></link>
+  <script src="d3.min.js" defer></script>
+  <script src="node_state.js" defer></script>
+  <script src="legend.js" defer></script>
+  <script src="event_fetcher.js" defer></script>
+  <script src="data_state.js" defer></script>
+  <script src="graph_view.js" defer></script>
+  <script src="playback_controller.js" defer></script>
+  <script src="playback_controls_ui.js" defer></script>
+  <script src="main.js" defer></script>
+</head>
+
+<body>
+  <div id="d3-container"></div>
+  <div id="legend"></div>
+</body>
+</html>

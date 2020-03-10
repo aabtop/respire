@@ -1,0 +1,56 @@
+[
+  {
+    "sc": [
+      {
+        "cmd": "echo \"[{\\\"inc\\\":[\\\"my_lib/my_lib2.respire\\\"]}]\" > my_lib/my_lib.respire",
+        "in": ["/mnt/c/Users/Andrew/src/respire/src/prototype_respire_file.json"],
+        "out": [
+          "my_lib/my_lib.respire",
+        ],
+      },
+    ],
+  },
+  {
+    "inc": [
+      "my_lib/my_lib.respire",
+    ],
+  },
+  {
+    "sc": [
+      {
+        "in": ["foo.txt", "foo2.txt"],
+        "out": ["foo3.txt"],
+        "cmd": "cat foo.txt foo2.txt > foo3.txt",
+      },
+      {
+        "cmd": "gcc -o a.o a.cc",
+        "in": [
+          "a.cc",
+        ],
+        "out": [
+          "a.o",
+        ],
+      },
+      {
+        "cmd": "gcc -o a.o a.cc",
+        "in": [
+          "b.cc",
+        ],
+        "out": [
+          "b.o",
+        ],
+      },
+      {
+        "cmd": "gcc -o my_executable a.o b.o my_lib/my_lib.a",
+        "in": [
+          "a.o",
+          "b.o",
+          "my_lib/my_lib.a"
+        ],
+        "out": [
+          "my_executable",
+        ],
+      },
+    ],
+  }
+]
