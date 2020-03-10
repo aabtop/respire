@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:aabtop/ebb.git
 	branch = master
-	commit = 8c993a01b6ea8cbcb58fa7b80f49fb56f2e51248
-	parent = fc92a86c7faedb4383470a8b5f1b8e780f822c50
+	commit = fc79600a45fbb60678808ba65c69aa820ddd42e1
+	parent = 4915138ed850ca13370588997e9cd3090c5fb93e
 	method = merge
 	cmdver = 0.4.1

@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:aabtop/stdext.git
 	branch = master
-	commit = fd626cbc0ba06d817647d26342b2157811145c2c
-	parent = 7b5f33db853c95ba46cfc10f4e7173e2939389ac
+	commit = 2bc86d637ebd63048cb8e91b654d2fd2e6096062
+	parent = 8c993a01b6ea8cbcb58fa7b80f49fb56f2e51248
 	method = merge
 	cmdver = 0.4.1

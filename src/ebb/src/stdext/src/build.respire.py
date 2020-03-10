@@ -25,10 +25,13 @@ def EntryPoint(registry, out_dir):
   registry.SubRespire(StartBuilds, build_targets=build_outputs)
 
 
-def Build(registry, out_dir, configured_toolchain, platform,
+def Build(registry, out_dir, configured_toolchain, platform='host',
           googletest_modules=None):
   if not os.path.exists(out_dir):
     os.makedirs(out_dir)
+
+  if platform == 'host':
+    platform = sys.platform
 
   if platform == 'win32':
     platform_sources = [
@@ -36,7 +39,7 @@ def Build(registry, out_dir, configured_toolchain, platform,
       'platform/win32/file_system.cc',
       'platform/win32/subprocess.cc',
     ]
-  elif platform == 'raspi' or platform == 'linux' or platform == 'jetson':
+  elif platform == 'raspi' or 'linux' in platform or platform == 'jetson':
     platform_sources = [
       'platform/posix/context.cc',
       'platform/posix/subprocess.cc',
