@@ -155,7 +155,6 @@ class GccToolchain(cc.Toolchain):
                ['-o', output_path] +
                object_filepaths)
 
-    command += ['-std=c++11', '-lpthread']
     if configuration.optimize:
       command += ['-Wl,--gc-sections']
 
@@ -177,6 +176,8 @@ class GccToolchain(cc.Toolchain):
                 self.toolchain_library_directories)]
 
     command += ['-l' + x for x in system_libraries]
+
+    command += ['-std=c++11', '-lpthread']
 
     registry.SystemCommand(
         inputs=object_filepaths + static_library_filepaths,
