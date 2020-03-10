@@ -5,7 +5,6 @@ Its tasks mostly involve resolving filenames and deserializing parameters.
 '''
 
 
-import imp
 from os import path
 import respire_python_wrapper_helpers
 import sys
@@ -33,8 +32,8 @@ def main():
   sys.path.insert(0, path.join(path.dirname(__file__), 'buildlib'))
 
   # Load in the module containing the function to execute.
-  function_module = (
-      imp.load_source('python_function_module', args.module_filepath))
+  function_module = respire_python_wrapper_helpers.LoadSourceModule(
+      'python_function_module', args.module_filepath)
 
   # Get a reference to the target function within the module.
   if not hasattr(function_module, args.function_name):
