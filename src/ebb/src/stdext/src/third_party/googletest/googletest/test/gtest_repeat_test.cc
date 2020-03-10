@@ -26,23 +26,14 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-// Author: wan@google.com (Zhanyong Wan)
+
 
 // Tests the --gtest_repeat=number flag.
 
 #include <stdlib.h>
 #include <iostream>
 #include "gtest/gtest.h"
-
-// Indicates that this translation unit is part of Google Test's
-// implementation.  It must come before gtest-internal-inl.h is
-// included, or there will be a compiler error.  This trick is to
-// prevent a user from accidentally including gtest-internal-inl.h in
-// their code.
-#define GTEST_IMPLEMENTATION_ 1
 #include "src/gtest-internal-inl.h"
-#undef GTEST_IMPLEMENTATION_
 
 namespace testing {
 
@@ -75,7 +66,7 @@ namespace {
 
 
 // Used for verifying that global environment set-up and tear-down are
-// inside the gtest_repeat loop.
+// inside the --gtest_repeat loop.
 
 int g_environment_set_up_count = 0;
 int g_environment_tear_down_count = 0;
@@ -83,8 +74,8 @@ int g_environment_tear_down_count = 0;
 class MyEnvironment : public testing::Environment {
  public:
   MyEnvironment() {}
-  virtual void SetUp() { g_environment_set_up_count++; }
-  virtual void TearDown() { g_environment_tear_down_count++; }
+  void SetUp() override { g_environment_set_up_count++; }
+  void TearDown() override { g_environment_tear_down_count++; }
 };
 
 // A test that should fail.
@@ -126,14 +117,12 @@ const int kNumberOfParamTests = 10;
 class MyParamTest : public testing::TestWithParam<int> {};
 
 TEST_P(MyParamTest, ShouldPass) {
-  // TODO(vladl@google.com): Make parameter value checking robust
-  //                         WRT order of tests.
   GTEST_CHECK_INT_EQ_(g_param_test_count % kNumberOfParamTests, GetParam());
   g_param_test_count++;
 }
-INSTANTIATE_TEST_CASE_P(MyParamSequence,
-                        MyParamTest,
-                        testing::Range(0, kNumberOfParamTests));
+INSTANTIATE_TEST_SUITE_P(MyParamSequence,
+                         MyParamTest,
+                         testing::Range(0, kNumberOfParamTests));
 
 // Resets the count for each test.
 void ResetCounts() {
@@ -218,6 +207,7 @@ void TestRepeatWithFilterForFailedTests(int repeat) {
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
+
   testing::AddGlobalTestEnvironment(new MyEnvironment);
 
   TestRepeatUnspecified();
