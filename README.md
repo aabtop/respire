@@ -56,6 +56,34 @@ for an example entry point script.
 
 ### Build with Respire
 
+Once Respire is installed on a system (e.g. see
+[Build with CMake](#Build-With-CMake)), then Respire can be built using itself
+by running:
+
+```
+python src/build.py
+```
+
+By default, the output will appear in a newly created `out/` folder. By default
+a debug build is generated and the Respire binary executable is not packaged
+with the associated Python files.  In order to produce the final packaged
+output, call:
+
+```
+python src/build.py -t package
+```
+
+which will output the results into the directory `out/debug/package` (e.g. you
+could set your `PYTHONPATH` to this directory in order to use this new instance
+of Respire for future Respire builds).
+
+In order to build a release build of respire, and package the results, call
+
+```
+python src/build.py -t package -c release
+```
+
+and the results will be available in `out/release/package`.
 
 ## Example
 
