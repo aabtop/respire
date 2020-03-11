@@ -22,6 +22,7 @@ jobs:
       run: |
         cmake --build out_cmake --target install
     - name: Run tests on CMake build
+      continue-on-error: true
       run: |
         cd out_cmake
         ctest --output-on-failure
@@ -31,6 +32,7 @@ jobs:
       run: |
         python src/build.py -t package
     - name: Test with Respire
+      continue-on-error: true
       env:
         PYTHONPATH: ${{env.GITHUB_WORKSPACE}}/respire/out_cmake/package/python
       run: |
