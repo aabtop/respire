@@ -11,9 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      PYTHONPATH: ${{env.GITHUB_WORKSPACE}}/respire/out_cmake/package/python
-
     steps:
     - uses: actions/checkout@v2
     - name: Configure CMake Project
@@ -29,8 +26,12 @@ jobs:
         cd out_cmake
         ctest --output-on-failure
     - name: Build with Respire
+      env:
+        PYTHONPATH: ${{env.GITHUB_WORKSPACE}}/respire/out_cmake/package/python
       run: |
         python src/build.py -t package
     - name: Test with Respire
+      env:
+        PYTHONPATH: ${{env.GITHUB_WORKSPACE}}/respire/out_cmake/package/python
       run: |
         python src/build.py -t all
