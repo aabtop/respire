@@ -217,6 +217,6 @@ TEST_P(PushPullConsumerTests, CanDestroyFutureBeforeCallingGetValue) {
   EXPECT_EQ(1, internal_counter);
 }
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     VaryingPushPullConsumerParams, PushPullConsumerTests,
     ::testing::Values(1, 2, 8, 100));

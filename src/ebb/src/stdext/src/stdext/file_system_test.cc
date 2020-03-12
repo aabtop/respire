@@ -33,7 +33,7 @@ TEST(FileSYstemTests, CanPopFilePath) {
 template <typename T>
 class PathTypeAgnosticTest : public ::testing::Test {};
 
-TYPED_TEST_CASE_P(PathTypeAgnosticTest);
+TYPED_TEST_SUITE_P(PathTypeAgnosticTest);
 
 TYPED_TEST_P(PathTypeAgnosticTest, CanJoin) {
   TypeParam path_a("foo");
@@ -45,12 +45,12 @@ TYPED_TEST_P(PathTypeAgnosticTest, CanJoin) {
             result.str());
 }
 
-REGISTER_TYPED_TEST_CASE_P(
+REGISTER_TYPED_TEST_SUITE_P(
     PathTypeAgnosticTest,
     CanJoin);
 
 typedef ::testing::Types<PathStrRef, Path> PathTypes;
-INSTANTIATE_TYPED_TEST_CASE_P(A, PathTypeAgnosticTest, PathTypes);
+INSTANTIATE_TYPED_TEST_SUITE_P(A, PathTypeAgnosticTest, PathTypes);
 
 TEST(FileSystemTests, GetLastModificationTimeOnMissingFile) {
   stdext::file_system::TemporaryDirectory temp_dir;

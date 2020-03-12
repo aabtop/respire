@@ -73,6 +73,8 @@ class FileInfoNode {
     using Future = respire::Future<FileOutput>;
     using FuturePtr = std::unique_ptr<Future>;
 
+    virtual ~FileInfoNode() {}
+
     virtual FuturePtr GetFileInfo(bool dry_run = false) = 0;
 
     // Clears and populates a vector with the list of output files produced by

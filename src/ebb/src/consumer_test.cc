@@ -121,7 +121,7 @@ class ConsumerChain {
       ConsumerWithDynamicQueue<T>>> consumers_;
 };
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     WithDifferentThreadPoolsSizes, ConsumerTests, ::testing::Values(
         1, 2, 8, 100));
 
@@ -183,7 +183,7 @@ ConsumerChainTestParams kConsumerChainTestParams[] = {
   {100, 20, 1, 200},
 };
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     VaryingConsumerChainParams, ConsumerChainTests,
     ::testing::ValuesIn(kConsumerChainTestParams));
 
