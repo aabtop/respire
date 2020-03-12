@@ -42,13 +42,10 @@ std::string EscapeForJSON(const Path& path) {
   return EscapeForJSON(path.str());
 }
 
-void WriteToFile(
-    PathStrRef path, const std::string& contents) {
-  {
-    std::ofstream out(path.c_str());
-    out << contents;
-  }
-  
+void WriteToFile(PathStrRef path, const std::string& contents) {
+  std::ofstream out(path.c_str());
+  out << contents;
+  WaitForFilesystemTimeResolution();
 }
 
 respire::OptionalError BuildTargetRegistry(

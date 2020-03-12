@@ -23,7 +23,7 @@ struct hash<stdext::string_view>
     // implementation since we call a 32-bit hashing function on a (possibly)
     // 64 bit value.  Oh well!
     std::size_t result = 0;
-    MurmurHash3_x86_32(key.data(), key.size(), 0, &result);
+    MurmurHash3_x86_32(key.data(), static_cast<int>(key.size()), 0, &result);
     return result;
   }
 };

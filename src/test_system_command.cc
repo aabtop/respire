@@ -215,6 +215,10 @@ int CatFileListCommand(const StringVector& tokens) {
   return 0;
 }
 
+void WaitForFilesystemTimeResolution() {
+  std::this_thread::sleep_for(std::chrono::milliseconds(20));
+}
+
 int TestSystemCommand(
     const char* command,
     const stdext::optional<stdext::file_system::Path>& stdout_file,
@@ -239,10 +243,7 @@ int TestSystemCommand(
     std::cerr << "TestSystemCommand: Unkown command.";
   }
 
-  // In test environments always wait a little bit after these commands to
-  // ensure that file system event timestamps are always spaced far enough
-  // apart that they are all in separate buckets.
-  std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  WaitForFilesystemTimeResolution();
   return ret;
 }
 
