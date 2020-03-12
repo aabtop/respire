@@ -28,7 +28,12 @@ jobs:
     - name: Build with Respire
       env:
         PYTHONPATH: ${{github.workspace}}/out_cmake/package/python
+      # We run the command twice because the second call will emit
+      # some output as it checks the deps files, and it's nice to
+      # not have this show up in the subsequent step for running
+      # tests.
       run: |
+        python src/build.py -t package
         python src/build.py -t package
     - name: Test with Respire
       env:
