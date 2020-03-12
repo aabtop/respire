@@ -1,5 +1,7 @@
 # Respire 
 
+![C/C++ CI](https://github.com/aabtop/respire/workflows/C/C++%20CI/badge.svg)
+
 ## Introduction
 
 Respire provides logic to describe and execute an arbitrary file dependency
