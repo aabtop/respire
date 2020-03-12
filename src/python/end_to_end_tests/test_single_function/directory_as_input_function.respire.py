@@ -16,8 +16,11 @@ def TestBuild(registry, out_dir):
 
 
 def CatDirectory(inputs, outputs, out_dir):
+
   with open(outputs[0], 'w') as o:
-    for entry in os.listdir(inputs[0]):
+    # Sort the inputs by their filenames so that we're guaranteed to be
+    # deterministic about it.
+    for entry in sorted(os.listdir(inputs[0])):
       with open(os.path.join(inputs[0], entry), 'r') as i:
         o.write(i.read())
 

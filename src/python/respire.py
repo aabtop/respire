@@ -13,6 +13,9 @@ import json_utils
 import log_output.log_processor as log_processor
 import registry_helpers
 
+import tracemalloc
+
+tracemalloc.start()
 
 def GetStandardArgumentsParser(default_out_dir):
   parser = argparse.ArgumentParser(description='Entry point to respire build.')
@@ -97,6 +100,7 @@ def LaunchRespireCore(root_respire_file, max_jobs, out_dir, verbose, raw_logs,
   print('Time elapsed: %.3f' % (time.time() - start_time))
 
   exit_code = respire_process.wait()
+  respire_process.stdout.close()
   return exit_code
 
 
@@ -113,6 +117,12 @@ def main():
     params = json_utils.DecodeFromJSON(f.read())
 
   if Run(args.out_dir, args.build_file, args.function, params):
+    snapshot = tracemalloc.take_snapshot()
+    top_stats = snapshot.statistics('lineno')
+
+    print("[ Top 10 ]")
+    for stat in top_stats[:10]:
+      print(stat)
     return 0
   else:
     return 1
