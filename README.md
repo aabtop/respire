@@ -1,6 +1,6 @@
 # Respire 
 
-![C/C++ CI](https://github.com/aabtop/respire/workflows/C/C++%20CI/badge.svg)
+[![C/C++ CI](https://github.com/aabtop/respire/workflows/C/C++%20CI/badge.svg)](https://github.com/aabtop/respire/actions)
 
 ## Introduction
 
