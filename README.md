@@ -32,6 +32,8 @@ custom tools or other programming languages.
 
 ### Demos
 
+#### Executing Respire on a project for the first time
+
 Here is an animation showing what happens when Respire is used to build the
 Respire core project itself.  Note the `-g` command line parameter which enables
 a visualization of the build process which will open and render in a browser
@@ -55,6 +57,13 @@ Respire itself.
 
 Note also that multiple tasks are executed in parallel, one per thread available
 on the system.
+
+The grey nodes are nodes that are defined in the build files and available for
+building, but were not requested to be built at that time.  In this example,
+they are packaging and testing steps. The next animation goes on to run those
+build steps.
+
+#### Re-running respire to build tests and packaging
 
 ![Animation of Respire's build dependency graph while packaging and testing.](readme_assets/graph23.gif)
 
