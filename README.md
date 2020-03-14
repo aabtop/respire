@@ -33,7 +33,7 @@ custom tools or other programming languages.
 ### Demos
 
 Here is an animation showing what happens when Respire is used to build the
-Respire project itself.  Note the `-g` command line parameter which enables
+Respire core project itself.  Note the `-g` command line parameter which enables
 a visualization of the build process which will open and render in a browser
 as a web page.
 
@@ -65,6 +65,20 @@ Note that:
  * We do not have to wait for any Python to execute this time (e.g. "phase 1"
    from above), because the results from the Python execution have been cached
    from the first run.
+
+In this second example, we are packaging the Respire project and running the
+tests, both tasks which require the Respire core project to be built already,
+as was done in the first animation.
+
+The two circles of nodes on the right represent the packages, where most of
+the nodes represent Python file copies, where we copy the Python source code
+representing the Respire environment into a directory that also contains the
+Respire core executable.  Two copies are made, one for packaging and shipping,
+and one for testing.
+
+The testing one is used to enable end-to-end tests where test Python build steps
+are run, which ultimately invoke Respire core, and the resulting file system
+state is tested for correctness.
 
 ## Building Respire
 
