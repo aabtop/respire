@@ -30,6 +30,42 @@ the creation of these libraries, and so anyone is free to build their own in
 order to create a domain specific language for specifying build targets for
 custom tools or other programming languages.
 
+### Demos
+
+Here is an animation showing what happens when Respire is used to build the
+Respire project itself.  Note the `-g` command line parameter which enables
+a visualization of the build process which will open and render in a browser
+as a web page.
+
+![Animation of Respire's build dependency graph while building.](readme_assets/graph1.gif)
+
+Note that in the above animation there are two phases:
+
+ 1. The beginning where the Python scripts which define the build dependency
+    graph are executed.
+ 1. The second phase where the actual build instructions are executed.
+
+In the first phase, the dependency graph can be seen in the process of updating,
+as more Python is executed and the results are collected by the Respire core
+engine.
+
+In the next animation, starting from where we ended in the first animation we
+see Respire being invoked to run the unit and end-to-end tests packaged with
+Respire itself.
+
+Note also that multiple tasks are executed in parallel, one per thread available
+on the system.
+
+![Animation of Respire's build dependency graph while packaging and testing.](readme_assets/graph23.gif)
+
+Note that:
+
+ * We do not rebuild items that had already been built and whose dependencies
+   have not changed.
+ * We do not have to wait for any Python to execute this time (e.g. "phase 1"
+   from above), because the results from the Python execution have been cached
+   from the first run.
+
 ## Building Respire
 
 While Respire can be built by Respire, it can also be built using
@@ -94,4 +130,28 @@ and the results will be available in `out/release/package`.
 The directory
 [src/example/SimpleMultiSourceCPP](src/example/SimpleMultiSourceCPP) contains
 a small example of how to use Respire's high level C++ layer to define a
-small C++ project.
+small C++ project.  For convenience, the build file for this example project
+is inlined here:
+
+```python
+import os
+import respire.buildlib.cc as cc 
+import respire.buildlib.cc_toolchains.discovery as cc_discovery
+import respire.buildlib.modules as modules
+
+def EntryPoint(registry, out_dir):
+  toolchain = cc_discovery.DiscoverHostToolchain()
+  configured_toolchain = cc.ToolchainWithConfiguration(
+      toolchain, cc.Configuration())
+
+  main_module = modules.ExecutableModule(
+      'simple_multi_source_cpp', registry, out_dir, configured_toolchain,
+      sources=[
+        'main.cc',
+        'database.cc',
+        'database.h',
+      ])
+
+  for output in main_module.GetOutputFiles():
+    registry.Build(output)
+```
