@@ -1,4 +1,3 @@
-import os
 import respire.buildlib.cc as cc 
 import respire.buildlib.cc_toolchains.discovery as cc_discovery
 import respire.buildlib.modules as modules
